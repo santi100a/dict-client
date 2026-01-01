@@ -1,4 +1,4 @@
-import DictClient from '../src';
+import { DictClient } from '../src';
 jest.setTimeout(20_000);
 
 describe('DictClient.option() and DictClient.mime() methods', () => {

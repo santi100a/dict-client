@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - package.json # Add this to trigger on version changes
 
 jobs:
   test:
