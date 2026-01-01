@@ -17,4 +17,4 @@ exports.__esModule = true;
 exports.DictClient = void 0;
 var client_class_1 = require("./client.class");
 __createBinding(exports, client_class_1, "default", "DictClient");
-__exportStar(require("./types"), exports);
+__exportStar(require("./types.d"), exports);

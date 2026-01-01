@@ -4,8 +4,10 @@ on:
   push:
     branches:
       - main
-    paths:
-      - package.json # Add this to trigger on version changes
+
+permissions:
+  contents: read
+  id-token: write
 
 jobs:
   test:
@@ -17,7 +19,6 @@ jobs:
       - uses: actions/setup-node@v4 # Update to v4
         with:
           node-version: 22.x # Match your publish job
-          always-auth: true
 
       - name: Check commit message
         id: commit
@@ -81,27 +82,3 @@ jobs:
           bodyFile: release.md
           draft: false
           prerelease: false
-  publish-npm:
-    needs: release
-    environment: NPM
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write # REQUIRED for trusted publishing
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Set up Node.js 
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22.x
-          registry-url: 'https://registry.npmjs.org'
-
-      - name: Install dependencies
-        run: yarn --frozen-lockfile
-
-      - name: Build code
-        run: yarn build
-
-      - name: Publish to npm (trusted)
-        run: npm publish --provenance --access public
