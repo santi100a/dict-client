@@ -82,3 +82,28 @@ jobs:
           bodyFile: release.md
           draft: false
           prerelease: false
+  publish:
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.x
+          registry-url: https://registry.npmjs.org/
+          always-auth: false
+
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+      - name: Compile TypeScript
+        run: yarn build
+      - name: Publish to NPM
+        run: |
+            unset NODE_AUTH_TOKEN
+            unset NPM_AUTH_TOKEN
+            unset NPM_TOKEN
+
+            npm publish --provenance --access public
